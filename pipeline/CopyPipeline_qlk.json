@@ -1,0 +1,230 @@
+{
+	"name": "CopyPipeline_qlk",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_qlk",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT * FROM FN_GET_TAXRULE_DETAILS(2)",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings",
+							"maxConcurrentConnections": 10,
+							"blockSizeInMB": 50
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings",
+							"filePattern": "arrayOfObjects"
+						}
+					},
+					"enableStaging": false,
+					"validateDataConsistency": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "TAX_ID",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$['TAX_ID']"
+								}
+							},
+							{
+								"source": {
+									"name": "TAX_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['TAX_NAME']"
+								}
+							},
+							{
+								"source": {
+									"name": "CONDITIONAL_OPERATOR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['CONDITIONAL_OPERATOR']"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_RULE",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$['ID_RULE']"
+								}
+							},
+							{
+								"source": {
+									"name": "RULE_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['RULE_NAME']"
+								}
+							},
+							{
+								"source": {
+									"name": "RULE_DESCRIPTION",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['RULE_DESCRIPTION']"
+								}
+							},
+							{
+								"source": {
+									"name": "ENTITY_ID",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$['ENTITY_ID']"
+								}
+							},
+							{
+								"source": {
+									"name": "ENTITY_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['ENTITY_NAME']"
+								}
+							},
+							{
+								"source": {
+									"name": "CRITERIA_ID",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$['CRITERIA_ID']"
+								}
+							},
+							{
+								"source": {
+									"name": "CRITERIA_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['CRITERIA_NAME']"
+								}
+							},
+							{
+								"source": {
+									"name": "CRITERIA_TYPE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['CRITERIA_TYPE']"
+								}
+							},
+							{
+								"source": {
+									"name": "CRITERIA_DESCRIPTION",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['CRITERIA_DESCRIPTION']"
+								}
+							},
+							{
+								"source": {
+									"name": "CRITERIA_DEPENDENCY",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['CRITERIA_DEPENDENCY']"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_PREMISE",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$['ID_PREMISE']"
+								}
+							},
+							{
+								"source": {
+									"name": "NAME_PREMISE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['NAME_PREMISE']"
+								}
+							},
+							{
+								"source": {
+									"name": "DESCRIPTION_PREMISE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['DESCRIPTION_PREMISE']"
+								}
+							},
+							{
+								"source": {
+									"name": "VARIABLE_PREMISE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['VARIABLE_PREMISE']"
+								}
+							},
+							{
+								"source": {
+									"name": "LOGICAL_OPERATOR",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['LOGICAL_OPERATOR']"
+								}
+							},
+							{
+								"source": {
+									"name": "VALUE_PREMISE",
+									"type": "String"
+								},
+								"sink": {
+									"path": "$['VALUE_PREMISE']"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_qlk",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_qlk",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
